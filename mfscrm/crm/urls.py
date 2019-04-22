@@ -25,7 +25,7 @@ urlpatterns = [
     path('customer/<int:pk>/export/', views.export_pdf, name='export_pdf'),
     path('product/<int:pk>/summary/', views.product_summary, name='product_summary'),
     path('service/<int:pk>/summary/', views.service_summary, name='service_summary'),
-    path('service/<int:pk>/export/', views.service_export_pdf, name='service_export_pdf'),
+
     path('product/<int:pk>/export/', views.product_export_pdf, name='product_export_pdf'),
 
 

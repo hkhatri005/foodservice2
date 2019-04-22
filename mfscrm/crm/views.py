@@ -209,10 +209,9 @@ def summary(request, pk):
 @login_required
 def product_summary(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    products = Product.objects.filter(cust_name=product.cust_name)
-    sum_product_charge = Product.objects.filter(cust_name=pk).aggregate(Sum('charge'))
+    sum_product_charge = Product.objects.filter(cust_name=product.cust_name).aggregate(Sum('charge'))
     return render(request, 'crm/product_summary.html', {
-                                                'products': products,
+                                                'product': product,
                                                 'sum_product_charge': sum_product_charge, })
 
 @login_required
@@ -251,30 +250,12 @@ def export_pdf(request, pk):
     return response
 
 
-@login_required
-def service_export_pdf(request, pk):
-    service = get_object_or_404(Service, pk=pk)
-    sum_service_charge = Service.objects.filter(cust_name=service.cust_name).aggregate(Sum('service_charge'))
-    context = {'service': service,
-               'sum_service_charge': sum_service_charge,
-               }
-    html_string = render_to_string('crm/pdf_service.html', context)
-    html = HTML(string=html_string)
-    html.write_pdf(target='/tmp/mypdf.pdf');
-
-    fs = FileSystemStorage('/tmp')
-    with fs.open('mypdf.pdf') as pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="service-summary.pdf"'
-        return response
-
-    return response
 
 
 @login_required
 def product_export_pdf(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    sum_product_charge = Product.objects.filter(cust_name=pk).aggregate(Sum('charge'))
+    sum_product_charge = Product.objects.filter(cust_name=product.cust_name).aggregate(Sum('charge'))
     context = {'product': product,
                'sum_product_charge': sum_product_charge,
                }

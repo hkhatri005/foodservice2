@@ -36,7 +36,6 @@
         </tr>
         </thead>
         <tbody>
-        {% for product in products %}
         <tr>
             <td>{{product.cust_name}}</td>
             <td>{{ product.product_name }}</td>
@@ -45,7 +44,6 @@
             <td>{{ product.pickup_time }}</td>
             <td>{{ product.charge|intcomma }}</td>
         </tr>
-        {% endfor %}
         </tbody>
     </table>
 </div>
@@ -54,13 +52,8 @@
     <tr class="bg-info">
         <th>Total of Product Charges</th>
     </tr>
+    <td>{{ sum_product_charge.charge__sum|intcomma }}</td>
     </thead>
-    <tbody>
-    <tr>
-        <td>{{ sum_product_charge.charge__sum|intcomma }}</td>
-
-    </tr>
-    </tbody>
 </table>
 </div>
 

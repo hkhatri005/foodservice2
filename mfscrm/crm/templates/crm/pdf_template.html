@@ -50,6 +50,7 @@
         <th>Total of Service Charges and Product Charges</th>
 
     </tr>
+    <td>{{ sum_service_charge.service_charge__sum|addition:sum_product_charge.charge__sum }}</td>
     </thead>
 </table>
 

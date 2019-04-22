@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import dj_database_url
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,10 +43,12 @@ INSTALLED_APPS = [
     'crispy_forms',
     'mathfilters',
     'django.contrib.humanize',
+    'taggit',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -80,7 +84,12 @@ WSGI_APPLICATION = 'mfscrm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'dfqakdsdukt345',
+        'USER': 'spbmhpgxipsdxb',
+        'PASSWORD': '0025d62c2a28cba04c7c790e796c91ffb22a30d947ed9dc741c3513f192232c2',
+        'HOST': 'postgres://spbmhpgxipsdxb:0025d62c2a28cba04c7c790e796c91ffb22a30d947ed9dc741c3513f192232c2@ec2-54-225-121-235.compute-1.amazonaws.com:5432/dfqakdsdukt345',
+        'PORT': '5432',
+
     }
 }
 
@@ -121,7 +130,36 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
+
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+DATABASES['default'] = dj_database_url.config()
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+
+# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = '	584393ac1b9924'
+EMAIL_HOST_PASSWORD = '98fb7bc1473731'
+EMAIL_PORT = 2525
+# EMAIL_USE_TLS = True
+
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
@@ -136,3 +174,7 @@ EMAIL_HOST_PASSWORD = 'Hite$h005'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'TestSite Team <noreply@example.com>'
 
+try:
+    from .local_settings import *
+except ImportError:
+    pass

@@ -58,8 +58,6 @@
                    class="btn btn-danger">Delete</a></td>
             <td><a href="{% url 'crm:service_summary' pk=service.pk %}"
                    class="btn btn-primary">Summary</a></td>
-            <td><a href="{% url 'crm:service_export_pdf' pk=service.pk %}"
-                   class="btn btn-primary">Export Summary</a></td>
 
         </tr>
         {% endfor %}
